@@ -10,7 +10,7 @@ data class Quotes(
     @SerializedName("id")
     val id: String?,
     @SerializedName("rating")
-    val rating: Int?,
+    val rating: Double?,
     @SerializedName("sr")
     val sr: String?
 )

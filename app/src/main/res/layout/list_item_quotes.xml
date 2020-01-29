@@ -13,7 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="9dp">
+        android:paddingTop="9dp"
+        android:paddingRight="9dp"
+        android:paddingLeft="9dp">
 
         <TextView
             android:layout_width="match_parent"
@@ -23,10 +25,17 @@
             tools:text="Quotes...." />
 
         <TextView
+            android:textSize="12sp"
             android:text="@{`by: ` + model.author}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="by: annasblackhat"
             android:textStyle="italic" />
+
+        <View
+            android:layout_marginTop="9dp"
+            android:background="#DBD7D7"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
     </LinearLayout>
 </layout>
