@@ -14,10 +14,10 @@ import retrofit2.await
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class GotViewModel : ViewModel() {
+class GotViewModel : ViewModel(), ViewModelDataSource<GotHouse> {
 
     private val executor: ExecutorService = Executors.newFixedThreadPool(5)
-    private val dataFactory = PagingDataSourceFactory(loadHouses())
+    private val dataFactory = PagingDataSourceFactory(this)
 
     private val pageConfig = PagedList.Config.Builder()
         .setEnablePlaceholders(false)
@@ -30,16 +30,12 @@ class GotViewModel : ViewModel() {
         .build()
 
 
-    private fun loadHouses(): ViewModelDataSource<GotHouse> {
-        return object : ViewModelDataSource<GotHouse> {
-            override fun createCall(page: Int, callInterface: NetworkCall<GotHouse>) {
-                viewModelScope.launch {
-                    try {
-                        val resp = RetrofitBuilder.createGotService().getGotHouses(page).await()
-                        callInterface.onSuccess(resp)
-                    } catch (e: Exception) {
-                    }
-                }
+    override fun createCall(page: Int, callInterface: NetworkCall<GotHouse>) {
+        viewModelScope.launch {
+            try {
+                val resp = RetrofitBuilder.createGotService().getGotHouses(page).await()
+                callInterface.onSuccess(resp)
+            } catch (e: Exception) {
             }
         }
     }
