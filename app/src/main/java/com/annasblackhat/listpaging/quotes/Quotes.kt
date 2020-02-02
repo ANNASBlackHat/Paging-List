@@ -1,4 +1,4 @@
-package com.annasblackhat.listpaging
+package com.annasblackhat.listpaging.quotes
 
 import com.google.gson.annotations.SerializedName
 
