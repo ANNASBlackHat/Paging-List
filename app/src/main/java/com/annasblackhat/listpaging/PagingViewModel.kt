@@ -1,6 +1,7 @@
 package com.annasblackhat.listpaging
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.LivePagedListBuilder
@@ -26,13 +27,21 @@ class PagingViewModel : ViewModel() {
         .setFetchExecutor(executor)
         .build()
 
+    private var _networkState = MutableLiveData<NetworkState>()
+    val networkState: LiveData<NetworkState>
+        get() = _networkState
+
+
     fun loadQuotes(page: Int, networkCall: NetworkCall<Quotes>) {
         viewModelScope.launch {
+            _networkState.value = NetworkState.LOADING
             try {
                 val resp = RetrofitBuilder.createQuoteService().getQuotesPaging(page).await()
                 networkCall.onSuccess(resp)
+                _networkState.value = NetworkState.LOADED
             } catch (e: Exception) {
                 println("[[PAGING]] load from server error: $e")
+                _networkState.value = NetworkState.error(e.message)
             }
         }
     }

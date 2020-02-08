@@ -21,5 +21,9 @@ class MainActivity : AppCompatActivity() {
             println("[[PAGING]] observe paging")
             adapter.submitList(it)
         })
+
+        viewModel.networkState.observe(this, Observer {
+            adapter.setNetworkState(it)
+        })
     }
 }
